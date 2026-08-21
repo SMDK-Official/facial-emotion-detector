@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="hero-card">
+    <h2>Live Emotion Detector</h2>
+    <video id="webcam" autoplay playsinline width="400" height="300"></video>
+    <canvas id="canvas" width="400" height="300" style="display:none;"></canvas>
+    <div id="result">
+        <h3 id="emotion-text">Waiting for face...</h3>
+        <p id="confidence-text">Confidence: 0%</p>
+    </div>
+    <button id="start-btn">Start Camera</button>
+</div>
+<script src="{{ url_for('static', filename='js/camera.js') }}"></script>
+<script src="{{ url_for('static', filename='js/detector.js') }}"></script>
+{% endblock %}
