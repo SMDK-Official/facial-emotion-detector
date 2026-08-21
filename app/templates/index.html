@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="hero-card">
+    <h2>Real-Time Facial Expression Analysis</h2>
+    <p>System initialized successfully in GitHub Codespaces.</p>
+    <div class="status-badge" id="system-status">Checking backend connection...</div>
+</div>
+
+<script>
+    fetch('/api/health')
+        .then(res => res.json())
+        .then(data => {
+            const badge = document.getElementById('system-status');
+            badge.innerText = `Backend Status: ${data.status.toUpperCase()}`;
+            badge.style.background = '#10b981';
+        })
+        .catch(err => {
+            const badge = document.getElementById('system-status');
+            badge.innerText = 'Backend connection error';
+            badge.style.background = '#ef4444';
+        });
+</script>
+{% endblock %}
