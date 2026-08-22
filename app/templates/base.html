@@ -3,25 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Facial Emotion Recognition System{% endblock %}</title>
+    <title>{% block title %}EmotionVision &bull; Experience AI{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="navbar">
         <div class="nav-container">
-            <h1 class="logo">EmotionAI</h1>
-            <nav>
-                <a href="{{ url_for('main.index') }}">Home</a>
+            <div class="brand">
+                <span class="brand-badge">PRO</span>
+                <span class="brand-title">Emotion<span class="highlight">Vision</span></span>
+            </div>
+            <nav class="nav-links">
+                <a href="{{ url_for('main.index') }}" class="nav-item">Dashboard</a>
+                <a href="{{ url_for('main.history') }}" class="nav-item">My Sessions</a>
+                <a href="{{ url_for('main.about') }}" class="nav-item">How It Works</a>
             </nav>
         </div>
     </header>
 
-    <main class="main-content">
+    <main class="main-container">
         {% block content %}{% endblock %}
     </main>
 
     <footer class="footer">
-        <p>Facial Emotion Detection & Expression Analysis System &bull; Academic FYP</p>
+        <div class="footer-content">
+            <p style="color: white; font-weight: 700; letter-spacing: 0.5px;">EmotionVision &bull; Next-Generation Facial Analysis</p>
+            <p class="sub-footer">Your privacy is guaranteed. Analysis happens instantly and sessions remain local.</p>
+        </div>
     </footer>
 </body>
 </html>

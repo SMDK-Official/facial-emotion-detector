@@ -7,6 +7,7 @@ class DetectionHistory(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     emotion = db.Column(db.String(50), nullable=False)
     confidence = db.Column(db.Float, nullable=False)
+    image_data = db.Column(db.Text, nullable=True) # Stores the snapshot image
 
     def __repr__(self):
         return f"<Detection {self.emotion} - {self.confidence}%>"

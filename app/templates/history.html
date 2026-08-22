@@ -1,39 +1,67 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="hero-card" style="max-width: 800px;">
-    <h2>Detection History</h2>
-    <p>Review your past facial expression analysis sessions.</p>
-    
-    <div style="margin-top: 2rem; text-align: left;">
-        <table style="width: 100%; border-collapse: collapse;">
+<div class="glass-card full-width-card">
+    <div class="card-header">
+        <div>
+            <h2>Session History Log</h2>
+            <p class="subtitle">Permanent record of stored facial expression observations</p>
+        </div>
+        <a href="{{ url_for('main.index') }}" class="btn btn-secondary">NEW DETECTION</a>
+    </div>
+
+    <div class="table-container">
+        <table class="modern-table">
             <thead>
-                <tr style="border-bottom: 2px solid var(--border-color); color: var(--accent-color);">
-                    <th style="padding: 10px;">ID</th>
-                    <th style="padding: 10px;">Date & Time (UTC)</th>
-                    <th style="padding: 10px;">Detected Emotion</th>
-                    <th style="padding: 10px;">Confidence</th>
+                <tr>
+                    <th>Log ID</th>
+                    <th>Snapshot</th>
+                    <th>Timestamp (UTC)</th>
+                    <th>Detected Mood</th>
+                    <th>Accuracy Score</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
                 {% for record in records %}
-                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <td style="padding: 10px;">{{ record.id }}</td>
-                    <td style="padding: 10px;">{{ record.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                    <td style="padding: 10px; font-weight: bold;">{{ record.emotion }}</td>
-                    <td style="padding: 10px;">{{ record.confidence }}%</td>
+                <tr>
+                    <!-- Removed the hash (#) from the ID here -->
+                    <td style="font-weight: 700;">{{ record.id }}</td>
+                    
+                    <!-- Added the image snapshot column -->
+                    <td>
+                        {% if record.image_data %}
+                            <img src="{{ record.image_data }}" alt="Snapshot" class="history-thumbnail">
+                        {% else %}
+                            <span style="color: var(--text-secondary); font-size: 0.8rem;">No Image</span>
+                        {% endif %}
+                    </td>
+
+                    <td>{{ record.timestamp.strftime('%Y-%m-%d &bull; %H:%M:%S')|safe }}</td>
+                    <td>
+                        <span class="emotion-pill">
+                            {{ record.emotion|capitalize }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="table-conf-wrapper">
+                            <span style="font-weight: 700;">{{ record.confidence }}%</span>
+                            <div class="mini-bar-bg">
+                                <div class="mini-bar-fill" style="width: {{ record.confidence }}%;"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span style="color: var(--text-secondary); font-weight: 600;">Logged</span></td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="4" style="padding: 20px; text-align: center; color: #94a3b8;">
-                        No history found. Start a camera session to save your first result!
+                    <td colspan="6" style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                        No sessions recorded yet. Run a live detection and click "Save Moment".
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    
-    <a href="{{ url_for('main.detector') }}" style="display: inline-block; margin-top: 2rem; padding: 10px 20px; background: var(--accent-color); color: #0f172a; text-decoration: none; border-radius: 5px; font-weight: bold;">Run New Detection</a>
 </div>
 {% endblock %}

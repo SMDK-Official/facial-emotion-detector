@@ -1,16 +1,66 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<div class="hero-card">
-    <h2>Live Emotion Detector</h2>
-    <video id="webcam" autoplay playsinline width="400" height="300"></video>
-    <canvas id="canvas" width="400" height="300" style="display:none;"></canvas>
-    <div id="result">
-        <h3 id="emotion-text">Waiting for face...</h3>
-        <p id="confidence-text">Confidence: 0%</p>
-        <button id="save-btn" style="display:none; margin-top:15px; padding: 10px; background: #10b981; color: white; border: none; border-radius: 5px; cursor: pointer;">Save Result to Database</button>
+<div class="dashboard-grid">
+    <!-- Left Column: Camera Feed -->
+    <div class="glass-card camera-card">
+        <div class="card-header">
+            <h3>Camera Feed</h3>
+            <span class="status-indicator" id="stream-status">Standby</span>
+        </div>
+        
+        <div class="video-container">
+            <video id="webcam" autoplay playsinline></video>
+            <div class="video-overlay" id="video-overlay">
+                <p>Ready when you are.</p>
+            </div>
+        </div>
+
+        <div class="control-actions">
+            <button id="start-btn" class="btn btn-primary">Start Camera</button>
+            <button id="save-btn" class="btn btn-success" style="display: none;">Save Moment</button>
+        </div>
     </div>
-    <button id="start-btn">Start Camera</button>
+
+    <!-- Right Column: Consumer Analytics -->
+    <div class="glass-card analytics-card">
+        <div class="card-header">
+            <h3>Live Analysis</h3>
+        </div>
+
+        <div class="metric-block">
+            <label class="metric-label">Detected Mood</label>
+            <div class="emotion-display" id="emotion-display">Waiting...</div>
+        </div>
+
+        <div class="metric-block">
+            <div class="metric-row">
+                <label class="metric-label">Match Accuracy</label>
+                <span class="confidence-val" id="confidence-val">0.0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="confidence-progress" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <div class="telemetry-grid">
+            <div class="telemetry-box">
+                <span class="tele-title">Smoothness</span>
+                <span class="tele-value">High</span>
+            </div>
+            <div class="telemetry-box">
+                <span class="tele-title">Speed</span>
+                <span class="tele-value">Real-Time</span>
+            </div>
+        </div>
+
+        <div class="report-box">
+            <h4>Insights</h4>
+            <p id="report-text">Position your face in the center of the camera to begin.</p>
+        </div>
+    </div>
 </div>
+
 <script src="{{ url_for('static', filename='js/camera.js') }}"></script>
 <script src="{{ url_for('static', filename='js/detector.js') }}"></script>
 {% endblock %}
