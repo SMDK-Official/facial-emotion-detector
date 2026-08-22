@@ -1,24 +1,16 @@
 {% extends 'base.html' %}
-
 {% block content %}
 <div class="hero-card">
-    <h2>Real-Time Facial Expression Analysis</h2>
-    <p>System initialized successfully in GitHub Codespaces.</p>
-    <div class="status-badge" id="system-status">Checking backend connection...</div>
+    <h2>Live Emotion Detector</h2>
+    <video id="webcam" autoplay playsinline width="400" height="300"></video>
+    <canvas id="canvas" width="400" height="300" style="display:none;"></canvas>
+    <div id="result">
+        <h3 id="emotion-text">Waiting for face...</h3>
+        <p id="confidence-text">Confidence: 0%</p>
+        <button id="save-btn" style="display:none; margin-top:15px; padding: 10px; background: #10b981; color: white; border: none; border-radius: 5px; cursor: pointer;">Save Result to Database</button>
+    </div>
+    <button id="start-btn">Start Camera</button>
 </div>
-
-<script>
-    fetch('/api/health')
-        .then(res => res.json())
-        .then(data => {
-            const badge = document.getElementById('system-status');
-            badge.innerText = `Backend Status: ${data.status.toUpperCase()}`;
-            badge.style.background = '#10b981';
-        })
-        .catch(err => {
-            const badge = document.getElementById('system-status');
-            badge.innerText = 'Backend connection error';
-            badge.style.background = '#ef4444';
-        });
-</script>
+<script src="{{ url_for('static', filename='js/camera.js') }}"></script>
+<script src="{{ url_for('static', filename='js/detector.js') }}"></script>
 {% endblock %}
