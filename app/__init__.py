@@ -14,14 +14,16 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.instance_path, 'app.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    # Ensure the instance directory exists for SQLite
     os.makedirs(app.instance_path, exist_ok=True)
-
-    # Initialize extensions
     db.init_app(app)
 
     # Register blueprints/routes
     from app.routes import main_bp
     app.register_blueprint(main_bp)
+
+    # Build the database tables automatically before the first request
+    with app.app_context():
+        from app.models import DetectionHistory
+        db.create_all()
 
     return app

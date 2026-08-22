@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="hero-card" style="max-width: 800px;">
+    <h2>Detection History</h2>
+    <p>Review your past facial expression analysis sessions.</p>
+    
+    <div style="margin-top: 2rem; text-align: left;">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--border-color); color: var(--accent-color);">
+                    <th style="padding: 10px;">ID</th>
+                    <th style="padding: 10px;">Date & Time (UTC)</th>
+                    <th style="padding: 10px;">Detected Emotion</th>
+                    <th style="padding: 10px;">Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 10px;">{{ record.id }}</td>
+                    <td style="padding: 10px;">{{ record.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td style="padding: 10px; font-weight: bold;">{{ record.emotion }}</td>
+                    <td style="padding: 10px;">{{ record.confidence }}%</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" style="padding: 20px; text-align: center; color: #94a3b8;">
+                        No history found. Start a camera session to save your first result!
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <a href="{{ url_for('main.detector') }}" style="display: inline-block; margin-top: 2rem; padding: 10px 20px; background: var(--accent-color); color: #0f172a; text-decoration: none; border-radius: 5px; font-weight: bold;">Run New Detection</a>
+</div>
+{% endblock %}
